@@ -18,7 +18,7 @@ namespace ConsoleApp1
 
         double nu = 0.001;
 
-        double eps = 0.0001;
+        double eps = 0.000001;
 
         public double[] calculate(double[] input)
         {
@@ -206,6 +206,41 @@ namespace ConsoleApp1
             }
 
             return e;
+        }
+
+        public int count_dead(double[,] data , int datasize)
+        {
+            int[] dead0 = new int[na];
+            int[] dead1 = new int[na];
+            for (int i=0; i<na; i++)
+            {
+                dead0[i] = 0;
+                dead1[i] = 0;
+            }
+
+            int count = 0;
+            for (int j = 0; j < datasize; j++)
+            {
+                double[] a = transferAss(getrow(data, ns, j));
+                double[] r = transferRes(a);
+                for (int i=0; i<na; i++)
+                {
+                    if (a[i] == 0)
+                        dead0[i]++;
+                    if (a[i] == 1)
+                        dead1[i]++;
+                }
+            }
+
+            foreach (int n in dead0)
+                if (n == 20)
+                    count++;
+
+            foreach (int n in dead1)
+                if (n == 20)
+                    count++;
+
+            return count;
         }
     }
 }
